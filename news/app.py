@@ -1,6 +1,10 @@
 from chalice import Chalice
-from config import apiKey, resource
-import requests, json
+from config import apiKey, api_resource, app_url
+import requests, json, os
+from urlparse import urlparse
+import boto
+import boto.s3
+from boto.s3.key import Key
 import os.path
 
 app = Chalice(app_name='news')
@@ -11,12 +15,12 @@ def index(category):
 	s = []
 
 	# Get news sources
-	data = requests.get(resource + 'sources?category=' + category + '&language=en')
+	data = requests.get(api_resource + 'sources?category=' + category + '&language=en')
 	json = data.json()
 
 	for source in json['sources']:
 		SOURCES['status'] = 200
-		s.append({'name': source['name'], 'url': '/source/' + source['id'], 'description': source['description']})
+		s.append({'name': source['name'], 'url': app_url + '/source/' + source['id'], 'description': source['description']})
 		
 	if len(s) == 0:
 		SOURCES['status'] = 404
@@ -28,7 +32,11 @@ def index(category):
 
 @app.route('/source/{source_id}', methods=['GET'])
 def articles(source_id):
-	data = requests.get(resource + 'articles?source=' + source_id + '&apiKey=' + apiKey)
+	data = requests.get(api_resource + 'articles?source=' + source_id + '&apiKey=' + apiKey)
 	json = data.json()
 
 	return json
+
+@app.route('/save', methods=['GET'])
+def save():
+	print os.path.basename()

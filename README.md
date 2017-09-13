@@ -4,7 +4,7 @@ Python Application to retrieve headlines from multiple news sources. This uses t
 
 Setup
 -------
-First, you must visit https://newsapi.org/, to sign up for an account. Once signed up, you will provided with an api key, that you then must use to set in the config.py file. Once you key is in place, navigate to the news folder and run "chalice local" to launch the application.
+First, you must visit https://newsapi.org/, to sign up for an account. Once signed up, you will provided with an api key, that you then must use to set in the config.py file. Also in the config file set the app_url variable to the root url the application will reside. Once your key and app_url are set, navigate to the news folder and run "chalice local" to launch the application.
 
 Navigate to the news folder and run 'pip install -r requirements.txt' to install required packages into your enviroment. Then run 'chalice local' to launch the app locally.
 
